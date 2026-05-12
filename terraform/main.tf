@@ -42,6 +42,19 @@ variable "droplet_size" {
   type    = string
   default = "s-1vcpu-1gb"
 }
+variable "db_name" {
+  type    = string
+  default = ""
+}
+variable "db_username" {
+  type    = string
+  default = "appuser"
+}
+variable "db_password" {
+  type      = string
+  sensitive = true
+  default   = ""
+}
 
 resource "digitalocean_ssh_key" "deploy" {
   name       = "udap-${var.project_name}"

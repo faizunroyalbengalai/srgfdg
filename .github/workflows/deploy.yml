@@ -122,14 +122,13 @@ jobs:
         working-directory: ansible
         env:
           ANSIBLE_HOST_KEY_CHECKING: "False"
-          DEPLOY_DATABASE_URL: ${{ secrets.DATABASE_URL }}
           DEPLOY_DB_NAME:      ${{ secrets.DB_NAME }}
           DEPLOY_DB_USERNAME:  ${{ secrets.DB_USERNAME }}
           DEPLOY_DB_PASSWORD:  ${{ secrets.DB_PASSWORD }}
           DEPLOY_DB_TYPE:      ${{ secrets.DB_TYPE }}
         run: |
           EXTRA_VARS=()
-          EXTRA_VARS+=(-e "deploy_database_url=${DEPLOY_DATABASE_URL}")
+          : "${DEPLOY_DB_USERNAME:=appuser}"
           EXTRA_VARS+=(-e "deploy_db_name=${DEPLOY_DB_NAME}")
           EXTRA_VARS+=(-e "deploy_db_username=${DEPLOY_DB_USERNAME}")
           EXTRA_VARS+=(-e "deploy_db_password=${DEPLOY_DB_PASSWORD}")

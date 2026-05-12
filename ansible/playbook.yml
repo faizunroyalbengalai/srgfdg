@@ -169,8 +169,10 @@
     - name: Create .env file
       shell: |
         printf '' > {{ app_dir }}/.env
-        DB_URL="{{ deploy_database_url | default('', true) }}"
-        [ -n "$DB_URL" ] && printf 'DATABASE_URL=%s\n' "$DB_URL" >> {{ app_dir }}/.env || true
+        DB_USER="{{ deploy_db_username | default('appuser', true) }}"
+        DB_PASS="{{ deploy_db_password | default('', true) }}"
+        DB_NAME="{{ deploy_db_name | default(project | replace('-', '_') + 'db', true) }}"
+        printf 'DATABASE_URL=mysql://%s:%s@localhost:3306/%s\n' "$DB_USER" "$DB_PASS" "$DB_NAME" >> {{ app_dir }}/.env
         printf 'PORT={{ app_port }}\nAPP_ENV=production\n' >> {{ app_dir }}/.env
       args:
         executable: /bin/bash
